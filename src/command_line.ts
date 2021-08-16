@@ -21,6 +21,10 @@ export class CommandLineController implements Disposable {
 
     private completionTimer?: NodeJS.Timeout;
 
+    private currentCommand: string = "";
+
+    private historyLocation: number = 0;
+
     private completionItems: QuickPickItem[] = [];
 
     private mode = "";
@@ -114,6 +118,9 @@ export class CommandLineController implements Disposable {
     private onChange = (e: string): void => {
         if (!this.isDisplayed) {
             return;
+        }
+        if(this.historyLocation == 0) {
+            this.currentCommand = e;
         }
         const mode = this.mode;
         if (mode === ":" && (e.charAt(0) === "?" || e.charAt(0) === "/") && this.input.items.length) {
@@ -233,19 +240,26 @@ export class CommandLineController implements Disposable {
     };
 
     private onHistoryUp = async (): Promise<void> => {
-        await this.neovimClient.input("<Up>");
+        await this.neovimClient.input("<S-Up>");
         const res = await this.neovimClient.callFunction("getcmdline", []);
         if (res) {
+            this.historyLocation++;
             this.input.value = res;
             this.input.show();
         }
     };
 
     private onHistoryDown = async (): Promise<void> => {
-        await this.neovimClient.input("<Down>");
+        await this.neovimClient.input("<S-Down>");
         const res = await this.neovimClient.callFunction("getcmdline", []);
         if (res) {
-            this.input.value = res;
+            if (this.historyLocation > 0) {
+                this.historyLocation--;
+                this.input.value = res;
+            }
+            if(this.historyLocation == 0) {
+               this.input.value = this.currentCommand; 
+            }
             this.input.show();
         }
     };
