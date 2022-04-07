@@ -17,7 +17,7 @@ export class CommandLineManager implements Disposable, NeovimRedrawProcessable {
      */
     private cmdlineTimer?: NodeJS.Timeout;
 
-    public constructor(private logger: Logger, private client: NeovimClient) {}
+    public constructor(private logger: Logger, private client: NeovimClient, private enableCtrlLInSearch: boolean) {}
 
     public dispose(): void {
         if (this.commandLine) {
@@ -57,7 +57,8 @@ export class CommandLineManager implements Disposable, NeovimRedrawProcessable {
                                 onAccepted: this.onCmdAccept,
                                 onCanceled: this.onCmdCancel,
                                 onChanged: this.onCmdChange,
-                            });
+                            },
+                            this.enableCtrlLInSearch);
                         }
                         this.commandLine.show(allContent, firstc, prompt);
                     } else {
@@ -71,7 +72,8 @@ export class CommandLineManager implements Disposable, NeovimRedrawProcessable {
                                     onAccepted: this.onCmdAccept,
                                     onCanceled: this.onCmdCancel,
                                     onChanged: this.onCmdChange,
-                                });
+                                },
+                                this.enableCtrlLInSearch);
                             }
                             this.commandLine.show(allContent, firstc, prompt);
                         }
@@ -106,7 +108,8 @@ export class CommandLineManager implements Disposable, NeovimRedrawProcessable {
                 onAccepted: this.onCmdAccept,
                 onCanceled: this.onCmdCancel,
                 onChanged: this.onCmdChange,
-            });
+            },
+            this.enableCtrlLInSearch);
         }
         this.commandLine.show(initialContent, firstc, prompt);
         this.cmdlineTimer = undefined;

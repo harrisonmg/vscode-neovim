@@ -23,6 +23,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     const useCtrlKeysInsertMode = settings.get("useCtrlKeysForInsertMode", true);
     const useWsl = isWindows && settings.get("useWSL", false);
     const revealCursorScrollLine = settings.get("revealCursorScrollLine", false);
+    const enableCtrlLInSearch = settings.get("enableCtrlLInSearch", false);
     const neovimWidth = settings.get("neovimWidth", 1000);
     const customInit = getNeovimInitPath() ?? "";
     const logPath = settings.get("logPath", "");
@@ -50,6 +51,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
             neovimViewportWidth: neovimWidth,
             textDecorationsAtTop: textDecorationsAtTop,
             revealCursorScrollLine: revealCursorScrollLine,
+            enableCtrlLInSearch: enableCtrlLInSearch,
             logConf: {
                 logPath,
                 outputToConsole,

@@ -42,6 +42,7 @@ export interface ControllerSettings {
     neovimViewportHeight: number;
     textDecorationsAtTop: boolean;
     revealCursorScrollLine: boolean;
+    enableCtrlLInSearch: boolean;
     logConf: {
         level: "none" | "error" | "warn" | "debug";
         logPath: string;
@@ -213,7 +214,7 @@ export class MainController implements vscode.Disposable {
         this.typingManager = new TypingManager(this.logger, this.client, this.modeManager, this.changeManager);
         this.disposables.push(this.typingManager);
 
-        this.commandLineManager = new CommandLineManager(this.logger, this.client);
+        this.commandLineManager = new CommandLineManager(this.logger, this.client, this.settings.enableCtrlLInSearch);
         this.disposables.push(this.commandLineManager);
 
         this.statusLineManager = new StatusLineManager(this.logger, this.client);

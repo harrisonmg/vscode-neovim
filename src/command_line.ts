@@ -30,7 +30,7 @@ export class CommandLineController implements Disposable {
 
     private callbacks: CommandLineCallbacks;
 
-    public constructor(client: NeovimClient, callbacks: CommandLineCallbacks) {
+    public constructor(client: NeovimClient, callbacks: CommandLineCallbacks, private enableCtrlLInSearch: boolean) {
         this.neovimClient = client;
         this.callbacks = callbacks;
         this.input = window.createQuickPick();
@@ -74,7 +74,7 @@ export class CommandLineController implements Disposable {
                 this.input.title = newTitle;
             }
             // we want take content for the search modes, because <c-l>/<c-w><c-r> keybindings
-            if (this.mode === "/" || this.mode === "?") {
+            if (this.enableCtrlLInSearch && (this.mode === "/" || this.mode === "?")) {
                 this.input.value = initialContent;
             }
         }

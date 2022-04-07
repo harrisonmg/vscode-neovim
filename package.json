@@ -119,6 +119,11 @@
                     "default": false,
                     "markdownDescription": "If 'true' reveals the cursor when scrolling by line and if it is outside view port"
                 },
+                "vscode-neovim.enableCtrlLInSearch": {
+                    "type": "boolean",
+                    "default": false,
+                    "markdownDescription": "If 'true' <c-l> will work in search input, but some characters may be dropped"
+                },
                 "vscode-neovim.logPath": {
                     "type": "string",
                     "default": "",
